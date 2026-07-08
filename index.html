@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow,noarchive,nosnippet,noimageindex" />
+    <meta name="googlebot" content="noindex,nofollow,noarchive,nosnippet,noimageindex" />
+    <meta name="bingbot" content="noindex,nofollow,noarchive,nosnippet,noimageindex" />
+    <meta name="referrer" content="same-origin" />
+    <title>AI+X实验班数据看板</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="lucide.min.js" defer></script>
+    <script src="public-data.js" defer></script>
+    <script src="public-app.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="主导航">
+        <div class="brand">
+          <div class="brand-mark">SIAS</div>
+          <div>
+            <p>郑州西亚斯学院</p>
+            <strong>AI+X实验班 数据看板</strong>
+          </div>
+        </div>
+        <nav class="nav-list">
+          <button class="nav-item active" type="button" data-view="achievements"><i data-lucide="trophy"></i><span>成果</span></button>
+          <button class="nav-item" type="button" data-view="experiences"><i data-lucide="book-open-text"></i><span>体会</span></button>
+          <button class="nav-item" type="button" data-view="publicity"><i data-lucide="megaphone"></i><span>宣传素材</span></button>
+          <button class="nav-item" type="button" data-view="storywall"><i data-lucide="sparkles"></i><span>故事墙</span></button>
+          <button class="nav-item" type="button" data-view="students"><i data-lucide="shield-check"></i><span>公开说明</span></button>
+          <button class="nav-item" type="button" data-view="schema"><i data-lucide="table-properties"></i><span>发布策略</span></button>
+        </nav>
+        <div class="sidebar-footer"><span class="status-dot"></span><span id="sourceSummary">公开版加载中</span></div>
+      </aside>
+      <main class="main">
+        <header class="topbar">
+          <div class="headline">
+            <span class="eyebrow">SIAS UNIVERSITY · AI+X ELITE 20</span>
+            <h1>AI+X实验班成果数据驾驶舱</h1>
+            <p id="headlineMeta">公开版仅展示高匿名汇总与精选内容，不提供全量数据下载。</p>
+          </div>
+          <div class="campus-visual">
+            <div class="visual-rule"><span></span><span></span></div>
+            <div class="campus-badge"><strong>SIAS</strong><span>AI+X ELITE 20</span></div>
+            <div class="hero-overview" id="heroOverview"></div>
+          </div>
+        </header>
+        <section class="drop-zone" id="dropZone">
+          <div class="drop-icon"><i data-lucide="shield-check"></i></div>
+          <div><strong>公开发布版</strong><span>不包含学生名单、全量表格、外部材料链接或可批量下载的数据文件</span></div>
+        </section>
+        <section class="metrics-grid" id="metricsGrid" aria-label="统计概览"></section>
+        <section class="smart-summary" id="smartSummary" aria-label="智能摘要"></section>
+        <section class="filter-panel" aria-label="筛选">
+          <label class="search-box"><i data-lucide="search"></i><input id="searchInput" type="search" placeholder="搜索成果、项目、体会" /></label>
+          <select id="typeFilter" aria-label="成果类型"></select>
+          <select id="gradeFilter" aria-label="隐藏筛选" hidden></select>
+          <select id="onlineFilter" aria-label="上线状态"></select>
+          <select id="publicFilter" aria-label="公开状态"></select>
+          <button class="ghost-button" id="resetFiltersButton" type="button" title="重置筛选"><i data-lucide="rotate-ccw"></i><span>重置</span></button>
+        </section>
+        <section class="view-panel active" data-panel="achievements">
+          <div class="content-grid">
+            <section class="data-surface">
+              <div class="surface-header"><div><span class="section-kicker">公开精选</span><h2>成果亮点与奖项荣誉</h2></div><span class="pill" id="achievementCount">0 项</span></div>
+              <div class="table-wrap"><table><thead><tr><th>来源</th><th>类型</th><th>成果名称</th><th>级别/平台</th><th>角色</th><th>时间</th><th>状态</th><th>材料</th></tr></thead><tbody id="achievementTable"></tbody></table></div>
+              <div class="mobile-list" id="achievementCards"></div>
+            </section>
+            <aside class="insight-surface"><div class="surface-header compact"><div><span class="section-kicker">分布</span><h2>成果画像</h2></div></div><div class="chart-stack"><div class="donut-row"><div><h3>上线占比</h3><div id="onlineDonut"></div></div><div><h3>宣传授权</h3><div id="publicityDonut"></div></div></div><div><h3>成果类型</h3><div id="typeChart" class="bar-chart"></div></div><div><h3>上线状态</h3><div id="gradeChart" class="bar-chart"></div></div><div><h3>级别/平台</h3><div id="levelChart" class="bar-chart"></div></div></div></aside>
+          </div>
+        </section>
+        <section class="view-panel" data-panel="storywall"><section class="data-surface full"><div class="surface-header"><div><span class="section-kicker">成果故事墙</span><h2>可展示的作品与成长案例</h2></div><span class="pill" id="storyCount">0 张</span></div><div class="story-wall" id="storyWall"></div></section></section>
+        <section class="view-panel" data-panel="experiences"><section class="data-surface full"><div class="surface-header"><div><span class="section-kicker">学习体会</span><h2>公开引用感言</h2></div><span class="pill" id="experienceCount">0 条</span></div><div class="quote-grid" id="experienceList"></div></section></section>
+        <section class="view-panel" data-panel="publicity"><div class="content-grid"><section class="data-surface"><div class="surface-header"><div><span class="section-kicker">可公开宣传</span><h2>作品、奖项与一句话感言</h2></div><span class="pill" id="publicityCount">0 条</span></div><div class="promo-workbench" id="promoWorkbench"></div><div class="publicity-feed" id="publicityFeed"></div></section><aside class="insight-surface"><div class="surface-header compact"><div><span class="section-kicker">素材池</span><h2>宣传准备度</h2></div></div><div class="readiness-list" id="readinessList"></div></aside></div></section>
+        <section class="view-panel" data-panel="students"><section class="data-surface full"><div class="surface-header"><div><span class="section-kicker">公开说明</span><h2>隐私与反批量下载策略</h2></div><span class="pill" id="studentCount">安全版</span></div><div class="student-grid" id="studentGrid"></div></section></section>
+        <section class="view-panel" data-panel="schema"><section class="data-surface full"><div class="surface-header"><div><span class="section-kicker">发布策略</span><h2>静态托管公开版结构</h2></div><span class="pill">public</span></div><div class="schema-grid" id="schemaGrid"></div></section></section>
+      </main>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
