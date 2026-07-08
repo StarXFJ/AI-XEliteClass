@@ -40,9 +40,6 @@ function cacheElements() {
     publicityCount: document.querySelector("#publicityCount"),
     promoWorkbench: document.querySelector("#promoWorkbench"),
     readinessList: document.querySelector("#readinessList"),
-    studentGrid: document.querySelector("#studentGrid"),
-    studentCount: document.querySelector("#studentCount"),
-    schemaGrid: document.querySelector("#schemaGrid"),
     toast: document.querySelector("#toast"),
   });
 }
@@ -84,7 +81,6 @@ function renderAll() {
   renderMetrics();
   renderSmartSummary();
   renderDataViews();
-  renderSchema();
   createIcons();
 }
 
@@ -159,7 +155,6 @@ function renderDataViews() {
   renderStoryWall();
   renderExperiences();
   renderPublicity();
-  renderPublicNotice();
 }
 
 function getFilteredHighlights() {
@@ -266,28 +261,6 @@ function renderReadiness() {
     const percent = row.total ? Math.round((row.count / row.total) * 100) : 0;
     return `<article class="readiness-item"><div class="surface-header compact"><h3>${escapeHtml(row.label)}</h3><span class="pill">${row.count}/${row.total || 0}</span></div><div class="bar-track"><div class="bar-fill" style="width: ${percent}%"></div></div><p>${percent}%</p></article>`;
   }).join("");
-}
-
-function renderPublicNotice() {
-  els.studentGrid.innerHTML = [
-    ["不含全量数据", "公开站点只发布统计、分布和精选展示，不包含完整成果表或完整体会表。"],
-    ["不含可识别字段", "姓名、学号、联系方式、学院、年级、专业、小组、教师全名均已移除或泛化。"],
-    ["不公开材料链接", "作品链接、证明材料和共享文档不进入静态托管公开版本。"],
-    ["反爬虫边界", "已配置 noindex 与 robots.txt，可阻止正规搜索引擎索引，但不能替代访问控制。"],
-  ].map(([title, body]) => `
-    <article class="student-card"><header><div><h3>${escapeHtml(title)}</h3><p>${escapeHtml(body)}</p></div><span class="pill">public</span></header><dl><dt>策略</dt><dd>最小披露</dd><dt>数据</dt><dd>非全量</dd><dt>下载</dt><dd>无批量文件</dd><dt>索引</dt><dd>禁止</dd></dl></article>
-  `).join("");
-}
-
-function renderSchema() {
-  const sections = [
-    ["部署目录", ["index.html", "public-app.js", "public-data.js", "styles.css", "sias-tech-bg.png", "lucide.min.js"]],
-    ["未发布内容", ["全量预置数据文件", "原始 Excel / ZIP", "学生名单", "证明材料链接", "本地工作目录"]],
-    ["静态托管设置", ["Source: Deploy from a branch", "Branch: main", "Folder: /docs", "发布前确认仓库不包含全量数据文件"]],
-  ];
-  els.schemaGrid.innerHTML = sections.map(([title, fields]) => `
-    <article class="schema-card"><span class="section-kicker">静态托管</span><h3>${escapeHtml(title)}</h3><div class="field-list">${fields.map((field) => `<span>${escapeHtml(field)}</span>`).join("")}</div></article>
-  `).join("");
 }
 
 function setView(view) {
