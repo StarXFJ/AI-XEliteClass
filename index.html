@@ -8,10 +8,10 @@
     <meta name="bingbot" content="noindex,nofollow,noarchive,nosnippet,noimageindex" />
     <meta name="referrer" content="same-origin" />
     <title>AI+X实验班数据看板</title>
-    <link rel="stylesheet" href="styles.css?v=20260708064844" />
-    <script src="lucide.min.js?v=20260708064844" defer></script>
-    <script src="public-data.js?v=20260708064844" defer></script>
-    <script src="public-app.js?v=20260708064844" defer></script>
+    <link rel="stylesheet" href="styles.css?v=20260708080936" />
+    <script src="lucide.min.js?v=20260708080936" defer></script>
+    <script src="public-data.js?v=20260708080936" defer></script>
+    <script src="public-app.js?v=20260708080936" defer></script>
   </head>
   <body>
     <div class="app-shell">
@@ -28,8 +28,6 @@
           <button class="nav-item" type="button" data-view="experiences"><i data-lucide="book-open-text"></i><span>体会</span></button>
           <button class="nav-item" type="button" data-view="publicity"><i data-lucide="megaphone"></i><span>宣传素材</span></button>
           <button class="nav-item" type="button" data-view="storywall"><i data-lucide="sparkles"></i><span>故事墙</span></button>
-          <button class="nav-item" type="button" data-view="students"><i data-lucide="shield-check"></i><span>公开说明</span></button>
-          <button class="nav-item" type="button" data-view="schema"><i data-lucide="table-properties"></i><span>发布策略</span></button>
         </nav>
         <div class="sidebar-footer"><span class="status-dot"></span><span id="sourceSummary">公开版加载中</span></div>
       </aside>
@@ -73,8 +71,6 @@
         <section class="view-panel" data-panel="storywall"><section class="data-surface full"><div class="surface-header"><div><span class="section-kicker">成果故事墙</span><h2>可展示的作品与成长案例</h2></div><span class="pill" id="storyCount">0 张</span></div><div class="story-wall" id="storyWall"></div></section></section>
         <section class="view-panel" data-panel="experiences"><section class="data-surface full"><div class="surface-header"><div><span class="section-kicker">学习体会</span><h2>公开引用感言</h2></div><span class="pill" id="experienceCount">0 条</span></div><div class="quote-grid" id="experienceList"></div></section></section>
         <section class="view-panel" data-panel="publicity"><div class="content-grid"><section class="data-surface"><div class="surface-header"><div><span class="section-kicker">可公开宣传</span><h2>作品、奖项与一句话感言</h2></div><span class="pill" id="publicityCount">0 条</span></div><div class="promo-workbench" id="promoWorkbench"></div><div class="publicity-feed" id="publicityFeed"></div></section><aside class="insight-surface"><div class="surface-header compact"><div><span class="section-kicker">素材池</span><h2>宣传准备度</h2></div></div><div class="readiness-list" id="readinessList"></div></aside></div></section>
-        <section class="view-panel" data-panel="students"><section class="data-surface full"><div class="surface-header"><div><span class="section-kicker">公开说明</span><h2>隐私与反批量下载策略</h2></div><span class="pill" id="studentCount">安全版</span></div><div class="student-grid" id="studentGrid"></div></section></section>
-        <section class="view-panel" data-panel="schema"><section class="data-surface full"><div class="surface-header"><div><span class="section-kicker">发布策略</span><h2>静态托管公开版结构</h2></div><span class="pill">public</span></div><div class="schema-grid" id="schemaGrid"></div></section></section>
       </main>
     </div>
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
