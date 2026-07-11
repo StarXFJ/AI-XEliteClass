@@ -219,19 +219,20 @@ function renderStoryWall() {
 function renderExperiences() {
   const query = state.filters.search.trim().toLowerCase();
   const rows = (DATA.quotes || []).filter((item) => !query || `${item.question} ${item.content}`.toLowerCase().includes(query));
-  els.experienceCount.textContent = `${rows.length} 条`;
+  const total = DATA.stats?.experiences || rows.length;
+  els.experienceCount.textContent = `${rows.length}/${total} 条`;
   els.experienceList.innerHTML = rows.length ? rows.map((item) => `
     <article class="quote-card">
-      <header><div><h3>匿名感言</h3><p>${escapeHtml(item.question || "学习体会")}</p></div>${publicTag(item.publicQuote)}</header>
+      <header><div><h3>匿名体会</h3><p>${escapeHtml(item.question || "学习体会")}</p></div><span class="tag">匿名公开</span></header>
       <p>${escapeHtml(item.content)}</p>
-      <div class="meta-line"><span>高匿名展示</span><span>公开引用</span></div>
+      <div class="meta-line"><span>高匿名展示</span><span>学习体会</span></div>
     </article>
   `).join("") : templateEmptyState("暂无公开学习体会");
 }
 
 function renderPublicity() {
   const achievements = getFilteredHighlights().filter((item) => isAffirmative(item.publicity));
-  const quotes = DATA.quotes || [];
+  const quotes = DATA.oneLineQuotes || [];
   const feed = [
     ...achievements.slice(0, 12).map((item) => ({ kind: "成果", title: item.name || item.type, body: item.intro || item.project, links: materialTags(item) })),
     ...quotes.slice(0, 8).map((item) => ({ kind: "感言", title: "匿名感言", body: item.content, links: "" })),
