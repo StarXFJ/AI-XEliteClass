@@ -1017,9 +1017,67 @@ tbody tr:hover td:nth-child(3) strong {
 .publicity-feed,
 .readiness-list,
 .story-wall,
-.promo-workbench {
+.promo-workbench,
+.overview-cards,
+.teacher-grid,
+.split-charts {
   display: grid;
   gap: 12px;
+}
+
+.overview-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.overview-cards {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.overview-card {
+  position: relative;
+  min-height: 116px;
+  padding: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 82, 165, 0.14);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(244, 249, 255, 0.95));
+}
+
+.overview-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 3px;
+  background: linear-gradient(90deg, var(--sias-blue), var(--sias-red));
+}
+
+.overview-card span,
+.overview-card p {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.overview-card strong {
+  display: block;
+  margin: 12px 0 4px;
+  color: var(--sias-blue-dark);
+  font-size: 32px;
+  font-weight: 950;
+  line-height: 1;
+}
+
+.overview-card p {
+  margin: 0;
+  line-height: 1.45;
+}
+
+.split-charts {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .quote-grid {
@@ -1033,7 +1091,8 @@ tbody tr:hover td:nth-child(3) strong {
 .readiness-item,
 .achievement-card,
 .story-card,
-.promo-bucket {
+.promo-bucket,
+.teacher-card {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: rgba(255, 255, 255, 0.94);
@@ -1047,7 +1106,8 @@ tbody tr:hover td:nth-child(3) strong {
 .readiness-item,
 .achievement-card,
 .story-card,
-.promo-bucket {
+.promo-bucket,
+.teacher-card {
   padding: 14px;
 }
 
@@ -1055,7 +1115,8 @@ tbody tr:hover td:nth-child(3) strong {
 .student-card header,
 .publicity-item header,
 .achievement-card header,
-.promo-bucket header {
+.promo-bucket header,
+.teacher-card header {
   display: flex;
   justify-content: space-between;
   gap: 10px;
@@ -1066,7 +1127,8 @@ tbody tr:hover td:nth-child(3) strong {
 .student-card h3,
 .publicity-item h3,
 .achievement-card h3,
-.story-card h3 {
+.story-card h3,
+.teacher-card h3 {
   margin: 0;
   font-size: 15px;
   color: var(--sias-blue-dark);
@@ -1081,7 +1143,8 @@ tbody tr:hover td:nth-child(3) strong {
 .achievement-card p,
 .readiness-item p,
 .story-card p,
-.promo-bucket p {
+.promo-bucket p,
+.teacher-card p {
   margin: 0;
   color: #43546b;
   line-height: 1.65;
@@ -1093,7 +1156,8 @@ tbody tr:hover td:nth-child(3) strong {
 .achievement-card,
 .promo-bucket,
 .readiness-item,
-.student-card {
+.student-card,
+.teacher-card {
   position: relative;
   overflow: hidden;
 }
@@ -1103,12 +1167,76 @@ tbody tr:hover td:nth-child(3) strong {
 .achievement-card::before,
 .promo-bucket::before,
 .readiness-item::before,
-.student-card::before {
+.student-card::before,
+.teacher-card::before {
   content: "";
   position: absolute;
   inset: 0 auto 0 0;
   width: 3px;
   background: linear-gradient(180deg, var(--sias-blue), var(--sias-red));
+}
+
+.teacher-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.teacher-card {
+  display: grid;
+  gap: 12px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(247, 251, 255, 0.94));
+}
+
+.teacher-card .section-kicker {
+  min-height: 18px;
+  color: var(--sias-red-dark);
+  font-size: 12px;
+}
+
+.teacher-facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.teacher-facts span {
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid rgba(0, 82, 165, 0.12);
+  border-radius: 6px;
+  color: #405268;
+  background: rgba(232, 242, 255, 0.54);
+  font-size: 12px;
+  font-weight: 750;
+  overflow-wrap: anywhere;
+}
+
+.teacher-facts strong,
+.teacher-note strong {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--sias-blue-dark);
+  font-size: 12px;
+  font-weight: 950;
+}
+
+.teacher-note {
+  padding: 12px;
+  border-left: 3px solid var(--sias-gold);
+  border-radius: 6px;
+  background: rgba(251, 245, 223, 0.5);
+}
+
+.teacher-note span {
+  color: #43546b;
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+
+.theme-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
 }
 
 .story-wall {
@@ -1408,10 +1536,16 @@ tbody tr:hover td:nth-child(3) strong {
     grid-template-columns: 1fr;
   }
 
+  .overview-grid,
+  .split-charts {
+    grid-template-columns: 1fr;
+  }
+
   .quote-grid,
   .student-grid,
   .story-wall,
-  .promo-workbench {
+  .promo-workbench,
+  .teacher-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -1489,6 +1623,11 @@ tbody tr:hover td:nth-child(3) strong {
   .student-grid,
   .schema-grid,
   .story-wall,
+  .overview-grid,
+  .overview-cards,
+  .split-charts,
+  .teacher-grid,
+  .teacher-facts,
   .promo-workbench,
   .donut-row {
     grid-template-columns: 1fr;

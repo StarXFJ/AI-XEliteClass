@@ -1,6 +1,6 @@
 const DATA = window.PUBLIC_DASHBOARD_DATA || {};
 const state = {
-  activeView: "achievements",
+  activeView: "overview",
   filters: { search: "", type: "", online: "", public: "" },
 };
 const els = {};
@@ -24,6 +24,10 @@ function cacheElements() {
     onlineFilter: document.querySelector("#onlineFilter"),
     publicFilter: document.querySelector("#publicFilter"),
     resetFiltersButton: document.querySelector("#resetFiltersButton"),
+    studentOverview: document.querySelector("#studentOverview"),
+    teacherOverview: document.querySelector("#teacherOverview"),
+    teacherThemeChart: document.querySelector("#teacherThemeChart"),
+    teacherImproveChart: document.querySelector("#teacherImproveChart"),
     achievementTable: document.querySelector("#achievementTable"),
     achievementCards: document.querySelector("#achievementCards"),
     achievementCount: document.querySelector("#achievementCount"),
@@ -36,6 +40,11 @@ function cacheElements() {
     storyCount: document.querySelector("#storyCount"),
     experienceList: document.querySelector("#experienceList"),
     experienceCount: document.querySelector("#experienceCount"),
+    teacherCards: document.querySelector("#teacherCards"),
+    teacherCount: document.querySelector("#teacherCount"),
+    teacherProblemChart: document.querySelector("#teacherProblemChart"),
+    teacherCourseTypeChart: document.querySelector("#teacherCourseTypeChart"),
+    teacherUnitChart: document.querySelector("#teacherUnitChart"),
     publicityFeed: document.querySelector("#publicityFeed"),
     publicityCount: document.querySelector("#publicityCount"),
     promoWorkbench: document.querySelector("#promoWorkbench"),
@@ -86,17 +95,17 @@ function renderAll() {
 
 function renderShell() {
   const stats = DATA.stats || {};
-  els.sourceSummary.textContent = `公开版 · ${stats.students || 0} 名学生 · ${stats.achievements || 0} 项成果`;
-  els.headlineMeta.textContent = `${stats.students || 0} 名学生，${stats.achievements || 0} 项成果，${stats.experiences || 0} 条学习体会。公开版不包含全量数据下载。`;
+  els.sourceSummary.textContent = `公开版 · ${stats.students || 0} 名学生 · ${stats.teacherCount || 0} 位教师`;
+  els.headlineMeta.textContent = `${stats.students || 0} 名学生、${stats.teacherCount || 0} 位教师，学生成果 ${stats.achievements || 0} 项，教师课改材料 ${stats.teacherDocuments || 0} 份。公开版不包含全量数据下载。`;
 }
 
 function renderTopOverview() {
   const stats = DATA.stats || {};
   const items = [
     { label: "学生", value: stats.students || 0 },
-    { label: "成果", value: stats.achievements || 0 },
-    { label: "可宣传", value: stats.publicity || 0 },
-    { label: "已上线", value: stats.online || 0 },
+    { label: "学生成果", value: stats.achievements || 0 },
+    { label: "教师", value: stats.teacherCount || 0 },
+    { label: "课改课程", value: stats.teacherCourses || 0 },
   ];
   els.heroOverview.innerHTML = items.map((item) => `
     <div class="hero-stat"><strong>${item.value}</strong><span>${escapeHtml(item.label)}</span></div>
@@ -121,11 +130,11 @@ function renderMetrics() {
   const stats = DATA.stats || {};
   const metrics = [
     { label: "学生", value: stats.students || 0, note: "高匿名汇总", icon: "users-round", color: "var(--sias-blue)" },
-    { label: "成果", value: stats.achievements || 0, note: "总量统计", icon: "trophy", color: "var(--sias-red)" },
-    { label: "数字作品", value: stats.digitalWorks || 0, note: "作品与原型", icon: "monitor-play", color: "var(--blue)" },
-    { label: "已上线", value: stats.online || 0, note: "作品状态", icon: "rocket", color: "var(--green)" },
-    { label: "可宣传", value: stats.publicity || 0, note: "成果授权", icon: "megaphone", color: "var(--gold)" },
-    { label: "精选展示", value: (DATA.highlights || []).length, note: "非全量数据", icon: "shield-check", color: "var(--sias-blue-dark)" },
+    { label: "学生成果", value: stats.achievements || 0, note: "成果与荣誉", icon: "trophy", color: "var(--sias-red)" },
+    { label: "学习体会", value: stats.publicExperiences || 0, note: "匿名公开", icon: "book-open-text", color: "var(--blue)" },
+    { label: "教师", value: stats.teacherCount || 0, note: "匿名课改成员", icon: "school", color: "var(--green)" },
+    { label: "课改方案", value: stats.teacherPlans || 0, note: "整门课程方案", icon: "file-check-2", color: "var(--gold)" },
+    { label: "课改意向", value: stats.teacherIntentions || 0, note: "需求征集材料", icon: "list-checks", color: "var(--sias-blue-dark)" },
   ];
   els.metricsGrid.innerHTML = metrics.map((metric) => `
     <article class="metric-card">
@@ -139,22 +148,51 @@ function renderMetrics() {
 function renderSmartSummary() {
   const stats = DATA.stats || {};
   const topType = (DATA.distributions?.type || [])[0];
+  const topTeacherTheme = (DATA.teacher?.distributions?.themes || [])[0];
   els.smartSummary.innerHTML = `
     <div class="summary-main">
       <span class="section-kicker">公开版数据结论</span>
-      <p>当前展示<strong>${stats.students || 0} 名学生</strong>、<strong>${stats.achievements || 0} 项成果</strong>的汇总统计，其中 <strong class="red">${stats.publicity || 0} 项可公开宣传</strong>、<strong class="green">${stats.online || 0} 项作品已上线</strong>。${topType ? `成果最集中在<strong>「${escapeHtml(topType.label)}」${topType.count} 项</strong>。` : ""}页面只包含汇总与精选内容，不提供全量行级数据。</p>
+      <p>当前分开展示<strong>${stats.students || 0} 名学生</strong>与<strong>${stats.teacherCount || 0} 位教师</strong>的匿名数据。学生侧包含<strong>${stats.achievements || 0} 项成果</strong>、<strong>${stats.publicExperiences || 0} 条体会</strong>；教师侧包含<strong class="red">${stats.teacherPlans || 0} 份整门课程方案</strong>、<strong class="green">${stats.teacherIntentions || 0} 份课改意向</strong>。${topType ? `学生成果以<strong>「${escapeHtml(topType.label)}」${topType.count} 项</strong>最集中。` : ""}${topTeacherTheme ? `教师课改高频主题为<strong>「${escapeHtml(topTeacherTheme.label)}」${topTeacherTheme.count} 项</strong>。` : ""}</p>
     </div>
     <div class="summary-chips">
-      <span>不含学生名单</span><span>不含全量表格</span><span>不含外部链接</span><span>禁止索引</span>
+      <span>学生匿名</span><span>教师匿名</span><span>原始材料隔离</span><span>禁止索引</span>
     </div>
   `;
 }
 
 function renderDataViews() {
+  renderOverview();
   renderAchievements();
   renderStoryWall();
   renderExperiences();
+  renderTeacherReforms();
   renderPublicity();
+}
+
+function renderOverview() {
+  const stats = DATA.stats || {};
+  if (els.studentOverview) {
+    els.studentOverview.innerHTML = [
+      { label: "学生样本", value: stats.students || 0, note: "不展示姓名与学号" },
+      { label: "成果总数", value: stats.achievements || 0, note: `${stats.digitalWorks || 0} 项数字作品` },
+      { label: "学习体会", value: stats.publicExperiences || 0, note: "已匿名公开" },
+      { label: "已上线作品", value: stats.online || 0, note: "公开版隐藏链接" },
+    ].map(overviewCard).join("");
+  }
+  if (els.teacherOverview) {
+    els.teacherOverview.innerHTML = [
+      { label: "教师成员", value: stats.teacherCount || 0, note: "以 T01 等代号展示" },
+      { label: "课改课程", value: stats.teacherCourses || 0, note: "课程维度聚合" },
+      { label: "完整方案", value: stats.teacherPlans || 0, note: "整门课程 AI 改造" },
+      { label: "意向材料", value: stats.teacherIntentions || 0, note: "改革基础与需求" },
+    ].map(overviewCard).join("");
+  }
+  if (els.teacherThemeChart) renderBars(els.teacherThemeChart, DATA.teacher?.distributions?.themes || [], "暂无教师主题分布");
+  if (els.teacherImproveChart) renderBars(els.teacherImproveChart, DATA.teacher?.distributions?.improve || [], "暂无改善方向分布");
+}
+
+function overviewCard(item) {
+  return `<article class="overview-card"><span>${escapeHtml(item.label)}</span><strong>${item.value}</strong><p>${escapeHtml(item.note)}</p></article>`;
 }
 
 function getFilteredHighlights() {
@@ -230,6 +268,54 @@ function renderExperiences() {
   `).join("") : templateEmptyState("暂无公开学习体会");
 }
 
+function getFilteredTeachers() {
+  const query = state.filters.search.trim().toLowerCase();
+  return (DATA.teacher?.teachers || []).filter((item) => {
+    if (!query) return true;
+    return [
+      item.id,
+      item.unit,
+      item.course,
+      item.courseType,
+      item.maturity,
+      item.summary,
+      item.target,
+      item.taskChain,
+      ...(item.themes || []),
+      ...(item.problemTags || []),
+      ...(item.improveTags || []),
+    ].some((value) => String(value || "").toLowerCase().includes(query));
+  });
+}
+
+function renderTeacherReforms() {
+  const teachers = getFilteredTeachers();
+  const stats = DATA.teacher?.stats || {};
+  if (els.teacherCount) els.teacherCount.textContent = `${teachers.length}/${stats.teachers || 0} 门课`;
+  if (els.teacherCards) {
+    els.teacherCards.innerHTML = teachers.length ? teachers.map((item) => `
+      <article class="teacher-card">
+        <header>
+          <div><span class="section-kicker">${escapeHtml(item.id || "T")}</span><h3>${escapeHtml(item.course || "课程名称待补")}</h3></div>
+          <span class="pill">${escapeHtml(item.maturity || "材料待补")}</span>
+        </header>
+        <p>${escapeHtml(item.summary || item.target || "方案要点待补充")}</p>
+        <div class="teacher-facts">
+          <span><strong>单位</strong>${escapeHtml(item.unit || "未填写")}</span>
+          <span><strong>类型</strong>${escapeHtml(item.courseType || "未填写")}</span>
+          <span><strong>对象</strong>${escapeHtml(item.audience || "未填写")}</span>
+        </div>
+        ${item.target ? `<div class="teacher-note"><strong>改造目标</strong><span>${escapeHtml(item.target)}</span></div>` : ""}
+        ${item.taskChain ? `<div class="teacher-note"><strong>任务链</strong><span>${escapeHtml(item.taskChain)}</span></div>` : ""}
+        <div class="theme-cloud">${tagList([...(item.themes || []), ...(item.improveTags || [])].slice(0, 8))}</div>
+      </article>
+    `).join("") : templateEmptyState("暂无教师课改材料");
+  }
+  if (els.teacherProblemChart) renderBars(els.teacherProblemChart, DATA.teacher?.distributions?.problems || [], "暂无教学痛点分布");
+  if (els.teacherCourseTypeChart) renderBars(els.teacherCourseTypeChart, DATA.teacher?.distributions?.courseTypes || [], "暂无课程类型分布");
+  if (els.teacherUnitChart) renderBars(els.teacherUnitChart, DATA.teacher?.distributions?.units || [], "暂无单位分布");
+}
+
 function renderPublicity() {
   const achievements = getFilteredHighlights().filter((item) => isAffirmative(item.publicity));
   const quotes = DATA.oneLineQuotes || [];
@@ -243,6 +329,10 @@ function renderPublicity() {
     <article class="publicity-item"><header><div><span class="section-kicker">${escapeHtml(item.kind)}</span><h3>${escapeHtml(item.title || "未命名素材")}</h3></div><span class="pill">匿名来源</span></header><p>${escapeHtml(item.body || "暂无简介")}</p><div class="meta-line">${item.links}</div></article>
   `).join("") : templateEmptyState("暂无可公开宣传素材");
   renderReadiness();
+}
+
+function tagList(values) {
+  return values.length ? values.map((value) => `<span class="tag neutral">${escapeHtml(value)}</span>`).join("") : "<span class=\"tag neutral\">主题待补</span>";
 }
 
 function renderPromoWorkbench() {

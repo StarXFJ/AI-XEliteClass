@@ -8,10 +8,10 @@
     <meta name="bingbot" content="noindex,nofollow,noarchive,nosnippet,noimageindex" />
     <meta name="referrer" content="same-origin" />
     <title>AI+X实验班数据看板</title>
-    <link rel="stylesheet" href="styles.css?v=20260711010236" />
-    <script src="lucide.min.js?v=20260711010236" defer></script>
-    <script src="public-data.js?v=20260711010236" defer></script>
-    <script src="public-app.js?v=20260711010236" defer></script>
+    <link rel="stylesheet" href="styles.css?v=20260711012440" />
+    <script src="lucide.min.js?v=20260711012440" defer></script>
+    <script src="public-data.js?v=20260711012440" defer></script>
+    <script src="public-app.js?v=20260711012440" defer></script>
   </head>
   <body>
     <div class="app-shell">
@@ -24,8 +24,10 @@
           </div>
         </div>
         <nav class="nav-list">
-          <button class="nav-item active" type="button" data-view="achievements"><i data-lucide="trophy"></i><span>成果</span></button>
-          <button class="nav-item" type="button" data-view="experiences"><i data-lucide="book-open-text"></i><span>体会</span></button>
+          <button class="nav-item active" type="button" data-view="overview"><i data-lucide="layout-dashboard"></i><span>总览</span></button>
+          <button class="nav-item" type="button" data-view="achievements"><i data-lucide="trophy"></i><span>学生成果</span></button>
+          <button class="nav-item" type="button" data-view="experiences"><i data-lucide="book-open-text"></i><span>学生体会</span></button>
+          <button class="nav-item" type="button" data-view="teacherReforms"><i data-lucide="school"></i><span>教师课改</span></button>
           <button class="nav-item" type="button" data-view="publicity"><i data-lucide="megaphone"></i><span>宣传素材</span></button>
           <button class="nav-item" type="button" data-view="storywall"><i data-lucide="sparkles"></i><span>故事墙</span></button>
         </nav>
@@ -51,17 +53,18 @@
         <section class="metrics-grid" id="metricsGrid" aria-label="统计概览"></section>
         <section class="smart-summary" id="smartSummary" aria-label="智能摘要"></section>
         <section class="filter-panel" aria-label="筛选">
-          <label class="search-box"><i data-lucide="search"></i><input id="searchInput" type="search" placeholder="搜索成果、项目、体会" /></label>
+          <label class="search-box"><i data-lucide="search"></i><input id="searchInput" type="search" placeholder="搜索学生成果、体会、教师课改" /></label>
           <select id="typeFilter" aria-label="成果类型"></select>
           <select id="gradeFilter" aria-label="隐藏筛选" hidden></select>
           <select id="onlineFilter" aria-label="上线状态"></select>
           <select id="publicFilter" aria-label="公开状态"></select>
           <button class="ghost-button" id="resetFiltersButton" type="button" title="重置筛选"><i data-lucide="rotate-ccw"></i><span>重置</span></button>
         </section>
-        <section class="view-panel active" data-panel="achievements">
+        <section class="view-panel active" data-panel="overview"><div class="overview-grid"><section class="data-surface"><div class="surface-header"><div><span class="section-kicker">学生模块</span><h2>学生成果与学习体会</h2></div></div><div class="overview-cards" id="studentOverview"></div></section><section class="data-surface"><div class="surface-header"><div><span class="section-kicker">教师模块</span><h2>教师课改方案与意向</h2></div></div><div class="overview-cards" id="teacherOverview"></div></section></div><section class="data-surface full"><div class="surface-header"><div><span class="section-kicker">改革主题</span><h2>教师 AI 课改方向分布</h2></div></div><div class="split-charts"><div><h3>课改主题</h3><div id="teacherThemeChart" class="bar-chart"></div></div><div><h3>AI 改善方向</h3><div id="teacherImproveChart" class="bar-chart"></div></div></div></section></section>
+        <section class="view-panel" data-panel="achievements">
           <div class="content-grid">
             <section class="data-surface">
-              <div class="surface-header"><div><span class="section-kicker">公开精选</span><h2>成果亮点与奖项荣誉</h2></div><span class="pill" id="achievementCount">0 项</span></div>
+              <div class="surface-header"><div><span class="section-kicker">学生公开精选</span><h2>学生成果亮点与奖项荣誉</h2></div><span class="pill" id="achievementCount">0 项</span></div>
               <div class="table-wrap"><table><thead><tr><th>来源</th><th>类型</th><th>成果名称</th><th>级别/平台</th><th>角色</th><th>时间</th><th>状态</th><th>材料</th></tr></thead><tbody id="achievementTable"></tbody></table></div>
               <div class="mobile-list" id="achievementCards"></div>
             </section>
@@ -69,7 +72,8 @@
           </div>
         </section>
         <section class="view-panel" data-panel="storywall"><section class="data-surface full"><div class="surface-header"><div><span class="section-kicker">成果故事墙</span><h2>可展示的作品与成长案例</h2></div><span class="pill" id="storyCount">0 张</span></div><div class="story-wall" id="storyWall"></div></section></section>
-        <section class="view-panel" data-panel="experiences"><section class="data-surface full"><div class="surface-header"><div><span class="section-kicker">学习体会</span><h2>匿名学习体会</h2></div><span class="pill" id="experienceCount">0 条</span></div><div class="quote-grid" id="experienceList"></div></section></section>
+        <section class="view-panel" data-panel="experiences"><section class="data-surface full"><div class="surface-header"><div><span class="section-kicker">学生学习体会</span><h2>匿名学习体会</h2></div><span class="pill" id="experienceCount">0 条</span></div><div class="quote-grid" id="experienceList"></div></section></section>
+        <section class="view-panel" data-panel="teacherReforms"><div class="content-grid"><section class="data-surface"><div class="surface-header"><div><span class="section-kicker">教师课改</span><h2>匿名教师课改方案与意向</h2></div><span class="pill" id="teacherCount">0 门课</span></div><div class="teacher-grid" id="teacherCards"></div></section><aside class="insight-surface"><div class="surface-header compact"><div><span class="section-kicker">课改画像</span><h2>问题与支持需求</h2></div></div><div class="chart-stack"><div><h3>教学痛点</h3><div id="teacherProblemChart" class="bar-chart"></div></div><div><h3>课程类型</h3><div id="teacherCourseTypeChart" class="bar-chart"></div></div><div><h3>单位分布</h3><div id="teacherUnitChart" class="bar-chart"></div></div></div></aside></div></section>
         <section class="view-panel" data-panel="publicity"><div class="content-grid"><section class="data-surface"><div class="surface-header"><div><span class="section-kicker">可公开宣传</span><h2>作品、奖项与一句话感言</h2></div><span class="pill" id="publicityCount">0 条</span></div><div class="promo-workbench" id="promoWorkbench"></div><div class="publicity-feed" id="publicityFeed"></div></section><aside class="insight-surface"><div class="surface-header compact"><div><span class="section-kicker">素材池</span><h2>宣传准备度</h2></div></div><div class="readiness-list" id="readinessList"></div></aside></div></section>
       </main>
     </div>
